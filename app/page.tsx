@@ -77,13 +77,28 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <section className="relative py-20 px-4 bg-gradient-to-br from-card via-background to-muted">
-        <div className="container mx-auto text-center">
+        {/* Background Image */}
+        <div className="absolute inset-0 h-[92vh]">
+          <Image
+            src="/bisket-jatra-festival-nepal-chariot-procession.png"
+            alt="Hamro Jatra Banner"
+            quality={100}
+            layout="fill"
+            objectFit="cover"
+            className="z-0"
+          />
+          {/* Overlay dark gradient for readability */}
+          <div className="absolute inset-0 bg-black/40 z-10" />
+        </div>
+
+        {/* Text Content */}
+        <div className="container mx-auto text-center relative z-20">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-5xl md:text-6xl font-bold text-foreground mb-6 text-balance">
+            <h2 className="text-5xl md:text-6xl font-bold mb-6 text-white">
               Discover Nepal&apos;s
               <span className="text-primary block">Cultural Heritage</span>
             </h2>
-            <p className="text-xl text-muted-foreground mb-8 text-pretty max-w-2xl mx-auto">
+            <p className="text-xl mb-8 text-white max-w-2xl mx-auto">
               Explore vibrant festivals, rich traditions, and sacred
               celebrations that define Nepal&apos;s cultural identity. From
               ancient rituals to modern festivities.
@@ -110,7 +125,7 @@ export default function HomePage() {
               <Button
                 variant="outline"
                 size="lg"
-                className="text-lg px-8 bg-transparent"
+                className="text-lg px-8 bg-transparent text-white"
               >
                 <Camera className="w-5 h-5 mr-2" />
                 Premium Photos
