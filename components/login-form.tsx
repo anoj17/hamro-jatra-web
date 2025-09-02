@@ -19,6 +19,8 @@ import { useForm } from "react-hook-form";
 import { FaGoogle } from "react-icons/fa6";
 // import logo from "../public/logo/hamro-jatra-logo.png";
 import { LoginFormData, loginSchema } from "@/lib/form-schema";
+import { signIn } from "@/auth";
+import { GoogleAuth } from "@/lib/actions/auth";
 
 export function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -149,7 +151,7 @@ export function LoginPage() {
             type="button"
             variant="outline"
             className="w-full border-border cursor-pointer py-2.5 hover:text-black hover:bg-white/90"
-            onClick={() => console.log("Google login clicked")}
+            onClick={() => GoogleAuth()}
           >
             <FaGoogle className="mr-2 h-4 w-4 text-black" />
             Continue with Google
