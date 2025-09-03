@@ -17,7 +17,6 @@ import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 // import logo from "../public/logo/hamro-jatra-logo.png";
-import { Logout } from "@/lib/actions/auth";
 import { LoginFormData, loginSchema } from "@/lib/form-schema";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -73,7 +72,6 @@ export function LoginPage() {
   return (
     <div className="md:min-h-screen flex md:items-center md:justify-center bg-background md:p-4">
       <div className="w-full px-3 md:max-w-lg border border-gray-300 rounded-lg md:shadow-lg md:min-w-md">
-        <button onClick={() => Logout()}>logout</button>
         <div className="flex items-center justify-center h-[150px]">
           <Image
             src={"/logo/hamro-jatra-logo.png"}

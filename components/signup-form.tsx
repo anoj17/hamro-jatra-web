@@ -5,7 +5,6 @@ import { Eye, EyeOff, Loader, Lock, Mail, User } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaGoogle } from "react-icons/fa6";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,8 +21,8 @@ import { RegisterUser } from "@/lib/actions/auth";
 import { RegisterFormData, registerSchema } from "@/lib/form-schema";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import logo from "../public/logo/hamro-jatra-logo.png";
 import { toast } from "react-toastify";
+import logo from "../public/logo/hamro-jatra-logo.png";
 import SocialMediaAuth from "./social-media-auth";
 
 export function RegisterForm() {
