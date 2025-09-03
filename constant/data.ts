@@ -4,11 +4,11 @@ export const sidebarItems = [
   {
     icon: "home",
     label: "Dashboard",
-    href: "/admin-dashboard",
+    href: "/dashboard",
     title: "Dashboard",
   },
   {
-    icon: "home",
+    icon: "upcommingJatra",
     label: "Up comming",
     href: "/upcomming-jatras",
     title: "up-comming",

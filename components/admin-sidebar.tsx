@@ -51,31 +51,31 @@ export function AdminSidebar({ collapsed, onToggle }: AdminSidebarProps) {
 
       {/* Navigation */}
       <nav className="p-4 space-y-2">
-        {sidebarItems.map((item) => {
-          const Icon = Icons[item.icon as keyof typeof Icons];
+        {sidebarItems.map((item, index) => {
+          const Icon = Icons[item.icon as keyof typeof Icons] ?? Menu;
           const isActive = activeItem === item.label;
 
           return (
-            <Link key={item.label} href={item.href} passHref>
+            <Link key={index} href={item.href}>
               <Button
                 asChild
                 variant="ghost"
                 className={cn(
                   "w-full justify-start mt-1 transition-all duration-200 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                  collapsed ? "px-2" : "px-3",
+                  collapsed ? "px-2 w-10" : "px-3",
                   isActive &&
                     "bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary hover:text-sidebar-primary-foreground"
                 )}
                 onClick={() => setActiveItem(item.label)}
               >
-                <a>
+                <div>
                   <Icon
                     className={cn("w-5 h-5", collapsed ? "mx-auto" : "mr-3")}
                   />
                   {!collapsed && (
                     <span className="text-sm font-medium">{item.label}</span>
                   )}
-                </a>
+                </div>
               </Button>
             </Link>
           );
