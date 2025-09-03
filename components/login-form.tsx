@@ -51,19 +51,19 @@ export function LoginPage() {
         password: data.password,
         redirect: false,
       });
-      console.log({ res });
+
       if (res?.error) {
         toast.error(res.error || "Invalid email or password");
       } else {
         // ✅ success
-        router.push("/register");
+        router.push("/");
       }
     } catch (err) {
       let message = "An unexpected error occurred.";
       if (err instanceof Error) {
         message = err.message;
       }
-      console.log(message);
+
       toast.error(message);
     } finally {
       setIsLoading(false);
