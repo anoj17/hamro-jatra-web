@@ -16,13 +16,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaGoogle } from "react-icons/fa6";
 // import logo from "../public/logo/hamro-jatra-logo.png";
-import { signIn } from "@/auth";
-import { GoogleAuth, Logout } from "@/lib/actions/auth";
+import { Logout } from "@/lib/actions/auth";
 import { LoginFormData, loginSchema } from "@/lib/form-schema";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import SocialMediaAuth from "./social-media-auth";
 
 export function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -42,14 +42,20 @@ export function LoginPage() {
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
     setError("");
-    console.log({ data });
+
+    console.log(data);
+
     try {
       const res = await signIn("credentials", {
         email: data.email,
         password: data.password,
-        redirect: true,
+        redirect: false,
       });
-      if (res) {
+      console.log({ res });
+      if (res?.error) {
+        toast.error(res.error || "Invalid email or password");
+      } else {
+        // ✅ success
         router.push("/register");
       }
     } catch (err) {
@@ -57,7 +63,8 @@ export function LoginPage() {
       if (err instanceof Error) {
         message = err.message;
       }
-      toast.error("There was a problem with your request.");
+      console.log(message);
+      toast.error(message);
     } finally {
       setIsLoading(false);
     }
@@ -162,15 +169,7 @@ export function LoginPage() {
             </div>
           </div>
 
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full border-border cursor-pointer py-2.5 hover:text-black hover:bg-white/90"
-            onClick={() => GoogleAuth()}
-          >
-            <FaGoogle className="mr-2 h-4 w-4 text-black" />
-            Continue with Google
-          </Button>
+          <SocialMediaAuth />
 
           <div className="text-center text-sm text-muted-foreground">
             Don&lsquo;t have an account?{" "}

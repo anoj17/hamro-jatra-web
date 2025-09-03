@@ -1,9 +1,9 @@
-import NextAuth from "next-auth";
-import Google from "next-auth/providers/google";
-import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { db } from "./db";
 import bcrypt from "bcryptjs";
+import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
+import { db } from "./db";
 
 const adapter = PrismaAdapter(db);
 
@@ -17,8 +17,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
     Credentials({
       credentials: {
-        email: { type: "email" },
-        password: { type: "password" },
+        email: {},
+        password: {},
       },
       async authorize(credentials) {
         const { email, password } = credentials as {
@@ -32,7 +32,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           });
 
           if (!findUser || !findUser.hashedPassword) {
-            return null;
+            throw new Error("Invalid email or password");
           }
 
           const isPasswordValid = await bcrypt.compare(

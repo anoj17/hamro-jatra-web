@@ -24,6 +24,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import logo from "../public/logo/hamro-jatra-logo.png";
 import { toast } from "react-toastify";
+import SocialMediaAuth from "./social-media-auth";
 
 export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -217,15 +218,7 @@ export function RegisterForm() {
           </div>
 
           {/* Google Signup */}
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full border-border cursor-pointer py-2.5 hover:text-black hover:bg-white/90"
-            onClick={() => console.log("Google signup clicked")}
-          >
-            <FaGoogle className="mr-2 h-4 w-4 text-black" />
-            Continue with Google
-          </Button>
+          <SocialMediaAuth />
 
           <div className="text-center text-sm text-muted-foreground">
             Already have an account?{" "}
