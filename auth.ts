@@ -1,12 +1,20 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "./db";
 import bcrypt from "bcryptjs";
 
+const adapter = PrismaAdapter(db);
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  adapter,
+  session: { strategy: "jwt", maxAge: 60 * 60 * 24 },
   providers: [
-    Google,
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
     Credentials({
       credentials: {
         email: { type: "email" },
@@ -50,4 +58,30 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        const dbUser = await db.user.findUnique({
+          where: { id: user.id },
+        });
+        if (dbUser) {
+          token.id = dbUser.id;
+          token.name = dbUser.name;
+          token.email = dbUser.email;
+          token.image = dbUser.image;
+        }
+      }
+      return token; // ✅ must return token
+    },
+
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id as string;
+        session.user.name = token.name;
+        session.user.email = token.email as string;
+        session.user.image = token.image as string;
+      }
+      return session;
+    },
+  },
 });

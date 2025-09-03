@@ -18,14 +18,18 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaGoogle } from "react-icons/fa6";
 // import logo from "../public/logo/hamro-jatra-logo.png";
-import { LoginFormData, loginSchema } from "@/lib/form-schema";
 import { signIn } from "@/auth";
-import { GoogleAuth } from "@/lib/actions/auth";
+import { GoogleAuth, Logout } from "@/lib/actions/auth";
+import { LoginFormData, loginSchema } from "@/lib/form-schema";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const router = useRouter();
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -38,12 +42,22 @@ export function LoginPage() {
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
     setError("");
-
+    console.log({ data });
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log("Login data:", data);
+      const res = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: true,
+      });
+      if (res) {
+        router.push("/register");
+      }
     } catch (err) {
-      setError("Invalid email or password. Please try again.");
+      let message = "An unexpected error occurred.";
+      if (err instanceof Error) {
+        message = err.message;
+      }
+      toast.error("There was a problem with your request.");
     } finally {
       setIsLoading(false);
     }
@@ -52,6 +66,7 @@ export function LoginPage() {
   return (
     <div className="md:min-h-screen flex md:items-center md:justify-center bg-background md:p-4">
       <div className="w-full px-3 md:max-w-lg border border-gray-300 rounded-lg md:shadow-lg md:min-w-md">
+        <button onClick={() => Logout()}>logout</button>
         <div className="flex items-center justify-center h-[150px]">
           <Image
             src={"/logo/hamro-jatra-logo.png"}

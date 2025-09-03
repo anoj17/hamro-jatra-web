@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
+import { ToastContainer } from "react-toastify";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className}`} suppressHydrationWarning={true}>
+        <ToastContainer />
         <NextTopLoader showSpinner={false} color="#950606" />
         {children}
       </body>

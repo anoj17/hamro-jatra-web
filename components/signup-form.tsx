@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Eye, EyeOff, Loader, Lock, Mail, User } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { FaGoogle } from "react-icons/fa6";
-import { Eye, EyeOff, Mail, Lock, User, Loader } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,15 +18,20 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import logo from "../public/logo/hamro-jatra-logo.png";
+import { RegisterUser } from "@/lib/actions/auth";
 import { RegisterFormData, registerSchema } from "@/lib/form-schema";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import logo from "../public/logo/hamro-jatra-logo.png";
+import { toast } from "react-toastify";
 
 export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const router = useRouter();
 
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
@@ -43,10 +48,21 @@ export function RegisterForm() {
     setError("");
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log("Register data:", data);
+      const res = await RegisterUser(data);
+
+      if (res.success) {
+        toast.success(res.message);
+        router.push("/login");
+        setIsLoading(false);
+      } else {
+        toast.error(res?.message);
+      }
     } catch (err) {
-      setError("Something went wrong. Please try again.");
+      let message = "An unexpected error occurred.";
+      if (err instanceof Error) {
+        message = err.message;
+      }
+      toast.error("There was a problem with your request.");
     } finally {
       setIsLoading(false);
     }

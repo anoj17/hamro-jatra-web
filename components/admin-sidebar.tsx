@@ -1,35 +1,17 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { sidebarItems } from "@/constant/data";
 import { cn } from "@/lib/utils";
-import {
-  Home,
-  MapPin,
-  Users,
-  Calendar,
-  ImageIcon,
-  Settings,
-  Menu,
-  ChevronLeft,
-  Plus,
-  BarChart3,
-} from "lucide-react";
+import { ChevronLeft, MapPin, Menu, Plus } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { Icons } from "./icons";
 
 interface AdminSidebarProps {
   collapsed: boolean;
   onToggle: () => void;
 }
-
-const sidebarItems = [
-  { icon: Home, label: "Dashboard", href: "/" },
-  { icon: MapPin, label: "Destinations", href: "/destinations" },
-  { icon: Calendar, label: "Tours", href: "/tours" },
-  { icon: Users, label: "Customers", href: "/customers" },
-  { icon: ImageIcon, label: "Gallery", href: "/gallery" },
-  { icon: BarChart3, label: "Analytics", href: "/analytics" },
-  { icon: Settings, label: "Settings", href: "/settings" },
-];
 
 export function AdminSidebar({ collapsed, onToggle }: AdminSidebarProps) {
   const [activeItem, setActiveItem] = useState("Dashboard");
@@ -37,7 +19,7 @@ export function AdminSidebar({ collapsed, onToggle }: AdminSidebarProps) {
   return (
     <div
       className={cn(
-        "fixed left-0 top-0 h-full bg-sidebar border-r border-sidebar-border transition-all duration-300 ease-in-out z-50",
+        "fixed left-0 top-0 h-full lg:mt-20 bg-sidebar border-r border-sidebar-border transition-all duration-300 ease-in-out z-50",
         collapsed ? "w-16" : "w-64"
       )}
     >
@@ -70,26 +52,32 @@ export function AdminSidebar({ collapsed, onToggle }: AdminSidebarProps) {
       {/* Navigation */}
       <nav className="p-4 space-y-2">
         {sidebarItems.map((item) => {
-          const Icon = item.icon;
+          const Icon = Icons[item.icon as keyof typeof Icons];
           const isActive = activeItem === item.label;
 
           return (
-            <Button
-              key={item.label}
-              variant="ghost"
-              className={cn(
-                "w-full justify-start transition-all duration-200 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                collapsed ? "px-2" : "px-3",
-                isActive &&
-                  "bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary hover:text-sidebar-primary-foreground"
-              )}
-              onClick={() => setActiveItem(item.label)}
-            >
-              <Icon className={cn("w-5 h-5", collapsed ? "mx-auto" : "mr-3")} />
-              {!collapsed && (
-                <span className="text-sm font-medium">{item.label}</span>
-              )}
-            </Button>
+            <Link key={item.label} href={item.href} passHref>
+              <Button
+                asChild
+                variant="ghost"
+                className={cn(
+                  "w-full justify-start mt-1 transition-all duration-200 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                  collapsed ? "px-2" : "px-3",
+                  isActive &&
+                    "bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary hover:text-sidebar-primary-foreground"
+                )}
+                onClick={() => setActiveItem(item.label)}
+              >
+                <a>
+                  <Icon
+                    className={cn("w-5 h-5", collapsed ? "mx-auto" : "mr-3")}
+                  />
+                  {!collapsed && (
+                    <span className="text-sm font-medium">{item.label}</span>
+                  )}
+                </a>
+              </Button>
+            </Link>
           );
         })}
       </nav>
