@@ -26,6 +26,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           password: string;
         };
 
+        if (!email || !password) {
+          throw new Error("Email and password are required");
+        }
+
         try {
           const findUser = await db.user.findUnique({
             where: { email },
