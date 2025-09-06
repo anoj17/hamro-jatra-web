@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import { ToastContainer } from "react-toastify";
 import "./globals.css";
+import { Footer } from "@/components/landing-components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
         <ToastContainer />
         <NextTopLoader showSpinner={false} color="#950606" />
         {children}
+        <Footer />
       </body>
     </html>
   );

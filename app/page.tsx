@@ -19,6 +19,9 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { HeroSection } from "@/components/landing-components/hero-section";
+import { UpcomingJatras } from "@/components/landing-components/upcomming-jatras";
+import { PopularJatras } from "@/components/landing-components/popular-jatras";
 
 export default function HomePage() {
   return (
@@ -76,143 +79,12 @@ export default function HomePage() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative py-20 px-4 bg-gradient-to-br from-card via-background to-muted">
-        {/* Background Image */}
-        <div className="absolute inset-0 h-[92vh]">
-          <Image
-            src="/bisket-jatra-festival-nepal-chariot-procession.png"
-            alt="Hamro Jatra Banner"
-            quality={100}
-            layout="fill"
-            objectFit="cover"
-            className="z-0"
-          />
-          {/* Overlay dark gradient for readability */}
-          <div className="absolute inset-0 bg-black/40 z-10" />
-        </div>
-
-        {/* Text Content */}
-        <div className="container mx-auto text-center relative z-20">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 text-white">
-              Discover Nepal&apos;s
-              <span className="text-primary block">Cultural Heritage</span>
-            </h2>
-            <p className="text-xl mb-8 text-white max-w-2xl mx-auto">
-              Explore vibrant festivals, rich traditions, and sacred
-              celebrations that define Nepal&apos;s cultural identity. From
-              ancient rituals to modern festivities.
-            </p>
-
-            {/* Search Bar */}
-            <div className="relative max-w-2xl mx-auto mb-12">
-              <div className="flex items-center bg-card border border-border rounded-lg p-2 shadow-lg">
-                <Search className="w-5 h-5 text-muted-foreground ml-3" />
-                <Input
-                  placeholder="Search Jatra or Location..."
-                  className="border-0 bg-transparent text-lg focus-visible:ring-0 focus-visible:ring-offset-0"
-                />
-                <Button className="ml-2">Explore</Button>
-              </div>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="text-lg px-8">
-                <Calendar className="w-5 h-5 mr-2" />
-                Upcoming Jatras
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="text-lg px-8 bg-transparent text-white"
-              >
-                <Camera className="w-5 h-5 mr-2" />
-                Premium Photos
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroSection />
 
       {/* Upcoming Jatras */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-foreground mb-4">
-              Upcoming Jatras
-            </h3>
-            <p className="text-muted-foreground text-lg">
-              Don&apos;t miss these upcoming cultural celebrations
-            </p>
-          </div>
+      <UpcomingJatras />
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                name: "Bisket Jatra",
-                location: "Bhaktapur",
-                date: "April 14-22, 2024",
-                description: "New Year celebration with chariot processions",
-                image: "/bisket-jatra-festival-nepal-chariot-procession.png",
-              },
-              {
-                name: "Indra Jatra",
-                location: "Kathmandu",
-                date: "September 17-25, 2024",
-                description: "Festival honoring Lord Indra with masked dances",
-                image: "/indra-jatra-festival-nepal-masked-dancers.png",
-              },
-              {
-                name: "Gai Jatra",
-                location: "Kathmandu Valley",
-                date: "August 30, 2024",
-                description: "Festival of cows with colorful parades",
-                image: "/gai-jatra-festival-nepal-cow-parade.png",
-              },
-            ].map((jatra, index) => (
-              <Card
-                key={index}
-                className="group hover:shadow-lg transition-all duration-300 cursor-pointer"
-              >
-                <div className="relative overflow-hidden rounded-t-lg">
-                  <Image
-                    src={jatra.image || "/placeholder.svg"}
-                    alt={jatra.name}
-                    width={300}
-                    height={200}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <Badge className="absolute top-3 left-3 bg-primary">
-                    Upcoming
-                  </Badge>
-                </div>
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-between">
-                    {jatra.name}
-                    <Heart className="w-5 h-5 text-muted-foreground hover:text-primary cursor-pointer" />
-                  </CardTitle>
-                  <CardDescription className="flex items-center text-sm">
-                    <MapPin className="w-4 h-4 mr-1" />
-                    {jatra.location}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground mb-3">
-                    {jatra.description}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-primary">
-                      {jatra.date}
-                    </span>
-                    <Share2 className="w-4 h-4 text-muted-foreground hover:text-primary cursor-pointer" />
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+      <PopularJatras />
 
       {/* Popular Jatras */}
       <section className="py-16 px-4 bg-muted/30">
