@@ -249,3 +249,20 @@
     @apply bg-background text-foreground;
   }
 }
+
+.marker-cluster {
+  height: 48px;
+  width: 48px;
+  background-color: rgba(0, 123, 255, 0.8);
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1;
+  text-align: center;
+}
+
+
