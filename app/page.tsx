@@ -19,6 +19,9 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Navbar } from "@/components/navbar";
+import logo from "../public/logo/hamro-jatra-logo.png";
+
 
 export default function HomePage() {
   return (
@@ -28,41 +31,21 @@ export default function HomePage() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-sm">
-                  🌸
-                </span>
+              <div className="">
+                 <Link href="/" className="flex items-center space-x-2">
+              <div className="w-10 h-10 flex items-center justify-center">
+               
               </div>
-              <h1 className="text-2xl font-bold text-foreground">
-                Hamro Jatra
-              </h1>
+              <Image
+                src={logo}
+                alt="Hamro Jatra Logo"
+                width={90}
+                height={90}
+              />
+            </Link>
+              </div>
             </div>
-            <nav className="hidden md:flex items-center space-x-6">
-              <Link
-                href="/jatras"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Jatras
-              </Link>
-              <Link
-                href="/gallery"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Gallery
-              </Link>
-              <Link
-                href="/map"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Map
-              </Link>
-              <Link
-                href="/about"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                About
-              </Link>
-            </nav>
+            <Navbar/>
             <div className="flex items-center space-x-2">
               <Button variant="ghost" size="sm" asChild>
                 <Link href="/login">Login</Link>
@@ -388,14 +371,23 @@ export default function HomePage() {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                  <span className="text-primary-foreground font-bold text-sm">
-                    🌸
-                  </span>
+                <div className="w-8 h-8 flex items-center justify-center">
+                 
+                 <Link href="/" className="flex items-center space-x-2">
+              <div className="w-10 h-10 flex items-center justify-center">
+               
+              </div>
+              <Image
+                src={logo}
+                alt="Hamro Jatra Logo"
+                width={90}
+                height={90}
+              />
+            </Link>
                 </div>
-                <h4 className="text-lg font-bold text-foreground">
+                {/* <h4 className="text-lg font-bold text-foreground">
                   Hamro Jatra
-                </h4>
+                </h4> */}
               </div>
               <p className="text-muted-foreground text-sm">
                 Celebrating Nepal&apos;s rich cultural heritage through

@@ -46,15 +46,16 @@ export function LoginPage() {
 
     try {
       const res = await signIn("credentials", {
+      
         email: data.email,
         password: data.password,
         redirect: false,
       });
+      console.log({res});
 
       if (res?.error) {
         toast.error(res.error || "Invalid email or password");
       } else {
-        // ✅ success
         router.push("/");
       }
     } catch (err) {
