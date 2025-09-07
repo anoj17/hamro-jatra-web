@@ -1,9 +1,8 @@
+import { Footer } from "@/components/landing-components/footer";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import NextTopLoader from "nextjs-toploader";
-import { ToastContainer } from "react-toastify";
 import "../globals.css";
-import { Footer } from "@/components/landing-components/footer";
+import { Navbar } from "@/components/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,8 +20,7 @@ export default function PageLayout({
   return (
     <html lang="en">
       <body className={`${inter.className}`} suppressHydrationWarning={true}>
-        <ToastContainer />
-        <NextTopLoader showSpinner={false} color="#950606" />
+        <Navbar />
         {children}
         <Footer />
       </body>
