@@ -7,7 +7,7 @@ import { Navbar } from "@/components/navbar";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import logo from "../public/logo/hamro-jatra-logo.png";
+import logo from "../../public/logo/hamro-jatra-logo.png";
 
 export default function HomePage() {
   return (

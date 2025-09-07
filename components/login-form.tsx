@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Loader, Lock, Mail } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 // import logo from "../public/logo/hamro-jatra-logo.png";
 import { LoginFormData, loginSchema } from "@/lib/form-schema";
@@ -23,12 +23,26 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import SocialMediaAuth from "./social-media-auth";
 
-export function LoginPage() {
+interface LoginPageProps {
+  user: {
+    id: string | null;
+    name: string | null;
+    email: string | null;
+    image: string | null;
+  };
+}
+
+export function LoginPage({ user }: LoginPageProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   const router = useRouter();
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user, router]);
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -42,16 +56,12 @@ export function LoginPage() {
     setIsLoading(true);
     setError("");
 
-    console.log(data);
-
     try {
       const res = await signIn("credentials", {
-      
         email: data.email,
         password: data.password,
         redirect: false,
       });
-      console.log({res});
 
       if (res?.error) {
         toast.error(res.error || "Invalid email or password");

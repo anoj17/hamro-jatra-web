@@ -34,7 +34,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           const findUser = await db.user.findUnique({
             where: { email },
           });
-         console.log({email, password});
 
           if (!findUser || !findUser.hashedPassword) {
             throw new Error("Invalid email or password");
@@ -44,7 +43,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             password,
             findUser.hashedPassword
           );
-console.log({isPasswordValid});
+
           if (!isPasswordValid) {
             return null;
           }
