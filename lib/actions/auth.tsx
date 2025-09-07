@@ -3,15 +3,14 @@
 import { signIn, signOut } from "@/auth";
 import { db } from "@/db";
 import bcrypt from "bcryptjs";
-import { success } from "zod";
 import { RegisterFormData } from "../form-schema";
 
-export const GoogleAuth = async () => {
-  await signIn("google", { callbackUrl: "/register" });
+export const GoogleAuth = async (callbackUrl: string) => {
+  await signIn("google", { callbackUrl: callbackUrl ?? "/" });
 };
 
 export const SignIn = async () => {
-  await signIn("credentials", { callbackUrl: "/register" });
+  await signIn("credentials", { callbackUrl: "/" });
 };
 
 export const Logout = async () => {
