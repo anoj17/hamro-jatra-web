@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import SearchJatrasByFilter from "@/components/filter-jatras";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,255 +10,91 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { jatrasData } from "@/constant/data";
 import {
   Calendar,
+  Clock,
+  Heart,
   MapPin,
   Search,
-  Heart,
   Share2,
-  Filter,
-  Clock,
   Star,
 } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
-
-const jatrasData = [
-  {
-    id: 1,
-    name: "Bisket Jatra",
-    location: "Bhaktapur",
-    date: "April 14-22, 2024",
-    status: "upcoming",
-    description:
-      "New Year celebration with chariot processions and traditional rituals",
-    image: "/bisket-jatra-festival-nepal-chariot-procession.png",
-    duration: "9 days",
-    popularity: 4.8,
-    category: "Religious",
-    region: "Kathmandu Valley",
-  },
-  {
-    id: 2,
-    name: "Indra Jatra",
-    location: "Kathmandu",
-    date: "September 17-25, 2024",
-    status: "upcoming",
-    description:
-      "Festival honoring Lord Indra with masked dances and cultural performances",
-    image: "/indra-jatra-festival-nepal-masked-dancers.png",
-    duration: "8 days",
-    popularity: 4.7,
-    category: "Cultural",
-    region: "Kathmandu Valley",
-  },
-  {
-    id: 3,
-    name: "Gai Jatra",
-    location: "Kathmandu Valley",
-    date: "August 30, 2024",
-    status: "upcoming",
-    description:
-      "Festival of cows with colorful parades and satirical performances",
-    image: "/gai-jatra-festival-nepal-cow-parade.png",
-    duration: "1 day",
-    popularity: 4.6,
-    category: "Cultural",
-    region: "Kathmandu Valley",
-  },
-  {
-    id: 4,
-    name: "Dashain",
-    location: "Nationwide",
-    date: "October 15-24, 2024",
-    status: "upcoming",
-    description:
-      "Nepal's biggest festival celebrating the victory of good over evil",
-    image: "/dashain-festival-nepal-celebration.png",
-    duration: "10 days",
-    popularity: 4.9,
-    category: "Religious",
-    region: "All Regions",
-  },
-  {
-    id: 5,
-    name: "Tihar",
-    location: "Nationwide",
-    date: "November 1-5, 2024",
-    status: "upcoming",
-    description:
-      "Festival of lights honoring different animals and relationships",
-    image: "/tihar-festival-nepal-lights.png",
-    duration: "5 days",
-    popularity: 4.8,
-    category: "Religious",
-    region: "All Regions",
-  },
-  {
-    id: 6,
-    name: "Holi",
-    location: "Nationwide",
-    date: "March 13, 2024",
-    status: "completed",
-    description: "Festival of colors celebrating spring and love",
-    image: "/holi-festival-nepal-colors.png",
-    duration: "1 day",
-    popularity: 4.7,
-    category: "Cultural",
-    region: "All Regions",
-  },
-  {
-    id: 7,
-    name: "Teej",
-    location: "Nationwide",
-    date: "August 18, 2024",
-    status: "completed",
-    description: "Women's festival celebrating marital bliss and well-being",
-    image: "/teej-festival-nepal-women-celebration.png",
-    duration: "3 days",
-    popularity: 4.5,
-    category: "Religious",
-    region: "All Regions",
-  },
-  {
-    id: 8,
-    name: "Janai Purnima",
-    location: "Nationwide",
-    date: "August 19, 2024",
-    status: "completed",
-    description: "Sacred thread festival with religious significance",
-    image: "/janai-purnima-festival-nepal-sacred-thread.png",
-    duration: "1 day",
-    popularity: 4.4,
-    category: "Religious",
-    region: "All Regions",
-  },
-];
+import { useMemo, useState } from "react";
 
 export default function JatrasPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedRegion, setSelectedRegion] = useState("all");
   const [selectedStatus, setSelectedStatus] = useState("all");
+  const [isFiltering, setIsFiltering] = useState(false);
 
-  const filteredJatras = jatrasData.filter((jatra) => {
-    const matchesSearch =
-      jatra.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      jatra.location.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory =
-      selectedCategory === "all" ||
-      jatra.category.toLowerCase() === selectedCategory;
-    const matchesRegion =
-      selectedRegion === "all" ||
-      jatra.region.toLowerCase().includes(selectedRegion.toLowerCase());
-    const matchesStatus =
-      selectedStatus === "all" || jatra.status === selectedStatus;
+  const filteredJatras = useMemo(() => {
+    setIsFiltering(true);
+    const filtered = jatrasData.filter((jatra) => {
+      const matchesSearch =
+        jatra.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        jatra.location.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory =
+        selectedCategory === "all" ||
+        jatra.category.toLowerCase() === selectedCategory;
+      const matchesRegion =
+        selectedRegion === "all" ||
+        jatra.region.toLowerCase().includes(selectedRegion.toLowerCase());
+      const matchesStatus =
+        selectedStatus === "all" || jatra.status === selectedStatus;
 
-    return matchesSearch && matchesCategory && matchesRegion && matchesStatus;
-  });
+      return matchesSearch && matchesCategory && matchesRegion && matchesStatus;
+    });
+
+    // Add slight delay for smooth transition effect
+    setTimeout(() => setIsFiltering(false), 300);
+    return filtered;
+  }, [searchTerm, selectedCategory, selectedRegion, selectedStatus]);
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <section className="py-16 px-4 bg-gradient-to-br from-card via-background to-muted/30">
-        <div className="container mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">
-            Explore All <span className="text-primary">Jatras</span>
-          </h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto text-pretty">
-            Discover Nepal&apos;s rich festival calendar with detailed
-            information about each celebration
+    <div className="min-h-screen mt-16">
+      <section className="pt-7 px-4 text-white relative overflow-hidden">
+        {/* <div className="absolute inset-0 bg-black/20"></div> */}
+        <div className="container mx-auto text-center relative z-10">
+          <h1 className="text-3xl md:text-5xl font-bold mb-6 text-black animate-fade-in">
+            Explore Nepal&apos;s <span className="text-primary">Jatras</span>
+          </h1>
+          <p className="text-md md:text-lg mb-8 max-w-3xl mx-auto text-secondary animate-fade-in-up">
+            Discover the vibrant festivals that celebrate Nepal&apos;s rich
+            cultural heritage and spiritual traditions
           </p>
         </div>
       </section>
 
-      {/* Filters Section */}
-      <section className="py-8 px-4 bg-card/30">
-        <div className="container mx-auto">
-          <div className="flex flex-col lg:flex-row gap-4 items-center">
-            {/* Search */}
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input
-                placeholder="Search jatras or locations..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 transition-all duration-200 focus:scale-[1.02]"
-              />
-            </div>
+      <SearchJatrasByFilter
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+        selectedRegion={selectedRegion}
+        setSelectedRegion={setSelectedRegion}
+        selectedStatus={selectedStatus}
+        setSelectedStatus={setSelectedStatus}
+        filteredJatras={filteredJatras}
+      />
 
-            {/* Filters */}
-            <div className="flex flex-wrap gap-3 items-center">
-              <div className="flex items-center gap-2">
-                <Filter className="w-4 h-4 text-muted-foreground" />
-                <span className="text-sm font-medium text-muted-foreground">
-                  Filter by:
-                </span>
-              </div>
-
-              <Select
-                value={selectedCategory}
-                onValueChange={setSelectedCategory}
-              >
-                <SelectTrigger className="w-32">
-                  <SelectValue placeholder="Category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  <SelectItem value="religious">Religious</SelectItem>
-                  <SelectItem value="cultural">Cultural</SelectItem>
-                </SelectContent>
-              </Select>
-
-              <Select value={selectedRegion} onValueChange={setSelectedRegion}>
-                <SelectTrigger className="w-40">
-                  <SelectValue placeholder="Region" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Regions</SelectItem>
-                  <SelectItem value="kathmandu">Kathmandu Valley</SelectItem>
-                  <SelectItem value="all regions">Nationwide</SelectItem>
-                </SelectContent>
-              </Select>
-
-              <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-                <SelectTrigger className="w-32">
-                  <SelectValue placeholder="Status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Status</SelectItem>
-                  <SelectItem value="upcoming">Upcoming</SelectItem>
-                  <SelectItem value="completed">Completed</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          {/* Results Count */}
-          <div className="mt-4 text-sm text-muted-foreground">
-            Showing {filteredJatras.length} of {jatrasData.length} jatras
-          </div>
-        </div>
-      </section>
-
-      {/* Jatras Grid */}
       <section className="py-12 px-4">
         <div className="container mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredJatras.map((jatra) => (
-              <Card
+          <div
+            className={`grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 transition-all duration-500 ${
+              isFiltering ? "opacity-50 scale-95" : "opacity-100 scale-100"
+            }`}
+          >
+            {filteredJatras.map((jatra, index) => (
+              <div
                 key={jatra.id}
-                className="group hover:shadow-xl transition-all duration-300 cursor-pointer animate-fade-in-up overflow-hidden"
-                style={{ animationDelay: `${jatra.id * 100}ms` }}
+                className="group hover:shadow-2xl rounded-lg hover:shadow-orange-500/20 transition-all duration-500 cursor-pointer overflow-hidden border-0 bg-white/90 backdrop-blur-sm hover:scale-105 hover:-translate-y-2"
+                style={{
+                  animationDelay: `${index * 100}ms`,
+                  animation: "fadeInUp 0.6s ease-out forwards",
+                }}
               >
                 <div className="relative overflow-hidden">
                   <Image
@@ -265,107 +102,113 @@ export default function JatrasPage() {
                     alt={jatra.name}
                     width={300}
                     height={200}
-                    className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-52 object-cover group-hover:scale-125 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                  {/* Status Badge */}
+                  {/* Enhanced overlay with gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
+
+                  {/* Floating Status Badge */}
                   <Badge
-                    className={`absolute top-3 left-3 ${
+                    className={`absolute top-4 left-4 px-3 py-1 text-xs font-bold shadow-lg ${
                       jatra.status === "upcoming"
-                        ? "bg-primary hover:bg-primary/80"
-                        : "bg-muted-foreground hover:bg-muted-foreground/80"
-                    }`}
+                        ? "bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
+                        : "bg-gradient-to-r from-gray-500 to-slate-600 hover:from-gray-600 hover:to-slate-700"
+                    } transform group-hover:scale-110 transition-transform duration-300`}
                   >
-                    {jatra.status === "upcoming" ? "Upcoming" : "Completed"}
+                    {jatra.status === "upcoming"
+                      ? "🔜 Upcoming"
+                      : "✅ Completed"}
                   </Badge>
 
                   {/* Category Badge */}
-                  <Badge variant="secondary" className="absolute top-3 right-3">
+                  <Badge
+                    variant="secondary"
+                    className="absolute top-4 right-4 bg-white/90 text-orange-700 font-semibold shadow-lg transform group-hover:scale-110 transition-transform duration-300"
+                  >
+                    {jatra.category === "Religious" ? "🙏" : "🎭"}{" "}
                     {jatra.category}
                   </Badge>
 
-                  {/* Favorite & Share Icons */}
-                  <div className="absolute bottom-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {/* Enhanced Action Buttons */}
+                  <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
                     <Button
                       size="sm"
-                      variant="secondary"
-                      className="w-8 h-8 p-0"
+                      className="w-10 h-10 p-0 bg-white/90 hover:bg-white text-red-500 hover:text-red-600 cursor-pointer shadow-lg hover:scale-110 transition-all duration-300"
                     >
                       <Heart className="w-4 h-4" />
                     </Button>
                     <Button
                       size="sm"
-                      variant="secondary"
-                      className="w-8 h-8 p-0"
+                      className="w-10 h-10 p-0 bg-white/90 hover:bg-white text-blue-500 cursor-pointer hover:text-blue-600 shadow-lg hover:scale-110 transition-all duration-300"
                     >
                       <Share2 className="w-4 h-4" />
                     </Button>
                   </div>
+
+                  {/* Popularity Badge */}
+                  <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                    <div className="flex items-center gap-1 bg-white/90 px-2 py-1 rounded-full shadow-lg">
+                      <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                      <span className="text-xs font-bold text-gray-700">
+                        {jatra.popularity}
+                      </span>
+                    </div>
+                  </div>
                 </div>
 
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-lg group-hover:text-primary transition-colors">
+                  <CardTitle className="text-xl group-hover:text-orange-600 transition-colors duration-300 font-bold">
                     {jatra.name}
                   </CardTitle>
-                  <CardDescription className="flex items-center text-sm">
-                    <MapPin className="w-4 h-4 mr-1 flex-shrink-0" />
+                  <CardDescription className="flex items-center text-sm text-gray-600">
+                    <MapPin className="w-4 h-4 mr-2 flex-shrink-0 text-primary" />
                     {jatra.location}
                   </CardDescription>
                 </CardHeader>
 
-                <CardContent className="pt-0">
-                  <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                <CardContent className="pt-0 space-y-4">
+                  <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
                     {jatra.description}
                   </p>
 
                   <div className="space-y-3">
-                    {/* Date */}
-                    <div className="flex items-center text-sm">
+                    {/* Date with enhanced styling */}
+                    <div className="flex items-center text-sm bg-orange-50 p-2 rounded-lg">
                       <Calendar className="w-4 h-4 mr-2 text-primary" />
-                      <span className="font-medium text-primary">
+                      <span className="font-semibold text-primary">
                         {jatra.date}
                       </span>
                     </div>
 
                     {/* Duration */}
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <Clock className="w-4 h-4 mr-2" />
+                    <div className="flex items-center text-sm text-gray-600">
+                      <Clock className="w-4 h-4 mr-2 text-gray-500" />
                       <span>{jatra.duration}</span>
                     </div>
 
-                    {/* Popularity */}
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center text-sm text-muted-foreground">
-                        <Star className="w-4 h-4 mr-1 fill-yellow-400 text-yellow-400" />
-                        <span>{jatra.popularity}</span>
-                      </div>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="hover:bg-primary hover:text-primary-foreground transition-colors bg-transparent"
-                      >
-                        Learn More
-                      </Button>
-                    </div>
+                    {/* Enhanced Learn More Button */}
+                    <Button className="w-full bg-secondary text-white font-semibold py-2 rounded-lg shadow-lg cursor-pointer hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                      View Details
+                    </Button>
                   </div>
                 </CardContent>
-              </Card>
+              </div>
             ))}
           </div>
 
-          {/* No Results */}
+          {/* Enhanced No Results */}
           {filteredJatras.length === 0 && (
-            <div className="text-center py-12">
-              <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
-                <Search className="w-8 h-8 text-muted-foreground" />
+            <div className="text-center py-16 animate-fade-in">
+              <div className="w-24 h-24 bg-gradient-to-br from-orange-100 to-red-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <Search className="w-12 h-12 text-primary" />
               </div>
-              <h3 className="text-lg font-semibold text-foreground mb-2">
-                No jatras found
+              <h3 className="text-2xl font-bold text-gray-800 mb-3">
+                No Jatras Found
               </h3>
-              <p className="text-muted-foreground mb-4">
-                Try adjusting your search terms or filters to find what
-                you&apos;re looking for.
+              <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                We couldn&apos;t find any jatras matching your criteria. Try
+                adjusting your search terms or filters.
               </p>
               <Button
                 onClick={() => {
@@ -374,7 +217,7 @@ export default function JatrasPage() {
                   setSelectedRegion("all");
                   setSelectedStatus("all");
                 }}
-                variant="outline"
+                className="bg-secondary text-white px-8 py-3 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
               >
                 Clear All Filters
               </Button>
@@ -382,6 +225,36 @@ export default function JatrasPage() {
           )}
         </div>
       </section>
+
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+
+        .animate-fade-in {
+          animation: fadeIn 1s ease-out;
+        }
+
+        .animate-fade-in-up {
+          animation: fadeInUp 1s ease-out 0.3s both;
+        }
+      `}</style>
     </div>
   );
 }
