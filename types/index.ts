@@ -14,3 +14,13 @@ export interface NavItem {
   children?: NavItem[];
   label?: string;
 }
+
+export interface SessionProps {
+  user: {
+    id: string | null;
+    image: string | null;
+    name: string | null;
+    email: string | null;
+  };
+  expires: string;
+}

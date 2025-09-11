@@ -6,6 +6,8 @@ export default async function Page() {
   const session = await auth();
   const user = session?.user as User;
 
+  console.log({ user });
+
   return (
     <div>
       <LoginPage user={user} />
