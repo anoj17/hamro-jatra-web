@@ -20,7 +20,7 @@ export default async function PageLayout({
   children: React.ReactNode;
 }>) {
   const session = (await auth()) as SessionProps | null;
-  console.log({ session });
+
   return (
     <html lang="en">
       <body className={`${inter.className}`} suppressHydrationWarning={true}>
