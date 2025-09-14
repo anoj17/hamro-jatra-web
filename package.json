@@ -4,16 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "worker": "ts-node workers/mainworker.ts",
     "build": "next build",
     "postinstall": "prisma generate",
     "start": "next start",
     "create-seed": "node dbinit.mjs",
     "lint": "next lint",
-    "format": "prettier . --write",
-    "prepare": "husky",
-    "dev:all": "concurrently --names \"NEXT,WORKER\" -c \"bgBlue.bold,bgGreen.bold\" --kill-others-on-fail \"npm run dev\" \"npm run worker\"",
-    "prod:all": "concurrently --names \"NEXT,WORKER\" -c \"bgBlue.bold,bgGreen.bold\" --kill-others-on-fail \"npm run start\" \"npm run worker\""
+    "format": "prettier . --write"
+    
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.10.0",
