@@ -1,5 +1,12 @@
 import { Icons } from "@/components/icons";
 
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  image: string;
+}
+
 export interface RegisterFormData {
   name: string;
   email: string;
