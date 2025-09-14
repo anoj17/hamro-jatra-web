@@ -2,13 +2,12 @@
 
 import { Badge } from "@/components/ui/badge";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Heart, MapPin, Share2, Calendar } from "lucide-react";
+import { Calendar, Heart, MapPin, Share2 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
