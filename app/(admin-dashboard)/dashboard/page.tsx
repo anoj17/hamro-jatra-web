@@ -10,7 +10,7 @@ export default async function Page() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen p-5 bg-background">
       <AdminDashboardClient user={user} />
     </div>
   );
