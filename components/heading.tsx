@@ -26,9 +26,6 @@ export const Heading: React.FC<HeadingProps> = ({
     <div className="mb-4 sm:mb-6 lg:mb-8">
       {/* Main heading container */}
       <div className="relative">
-        <div className="absolute -inset-2 rounded-3xl bg-gradient-to-br from-blue-500/5 via-indigo-500/5 to-purple-500/5 opacity-60 blur-2xl"></div>
-        <div className="from-blue-600/8 via-purple-600/8 to-pink-600/8 absolute -inset-1 rounded-2xl bg-gradient-to-r opacity-40 blur-xl"></div>
-
         <div className="relative backdrop-blur-[1px]">
           {/* Heading with icon */}
           <div className="mb-1 flex items-center gap-2 sm:gap-3 md:gap-4">

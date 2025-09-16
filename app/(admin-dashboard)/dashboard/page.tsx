@@ -1,9 +1,17 @@
-import { AdminContent } from "@/components/admin-content";
+import { AdminDashboardClient } from "@/components/tables/dashboard/client";
+import { db } from "@/db";
 
-export default function Page() {
+export default async function Page() {
+  let user;
+  try {
+    user = await db.user.findMany({});
+  } catch (error) {
+    console.log(error);
+  }
+
   return (
     <div className="min-h-screen bg-background">
-      <AdminContent />
+      <AdminDashboardClient user={user} />
     </div>
   );
 }
