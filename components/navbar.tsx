@@ -48,7 +48,6 @@ export function Navbar({ session }: { session: SessionProps | null }) {
   const Logout = async () => {
     setLoading(true);
     const res = await signOut();
-    console.log({ res });
     setLoading(false);
   };
 
@@ -100,95 +99,94 @@ export function Navbar({ session }: { session: SessionProps | null }) {
           </nav>
 
           {/* Right Section (Login + Date + Location) */}
-          <div className="hidden lg:flex items-center space-x-6">
-            {/* Date & Location */}
+          {session?.user.email === "anojbudathoki17@gmail.com" ? (
+            <Button>
+              <Link href="/dashboard">Dashboard</Link>
+            </Button>
+          ) : (
+            <div className="hidden lg:flex items-center space-x-6">
+              {/* Date & Location */}
 
-            {!session ? (
-              <div className="flex items-center space-x-3">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  asChild
-                  className="text-gray-700 hover:text-red-800 hover:bg-red-50 transition-all duration-200 font-medium px-4 py-2 rounded-lg border border-transparent border-red-200"
-                >
-                  <Link href="/login">Login</Link>
-                </Button>
-                <Button
-                  size="sm"
-                  asChild
-                  className="bg-red-800 hover:bg-red-900 text-white font-medium px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
-                >
-                  <Link href="/register">Sign Up</Link>
-                </Button>
-              </div>
-            ) : (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <div className="flex items-center space-x-1 px-3 py-2 rounded-lg transition-all duration-200">
-                    <Avatar className="h-7 w-7 bg-primary">
-                      <AvatarImage
-                        src={session?.user?.image || "/placeholder.svg"}
-                        alt={session.user.name || "User avatar"}
-                      />
-                      <AvatarFallback className="bg-secondary uppercase text-white text-md font-medium">
-                        {session.user.name?.charAt(0)}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="flex flex-col items-start">
-                      <span className="text-sm text-primary cursor-pointer truncate max-w-32">
-                        {session.user.email}
-                      </span>
-                    </div>
-                    <ChevronDown className="h-4 w-4 cursor-pointer text-gray-500 transition-transform duration-200 group-data-[state=open]:rotate-180" />
-                  </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="end"
-                  className="w-56 mt-2 bg-white border border-gray-200 shadow-lg rounded-lg p-1"
-                >
-                  <div className="px-3 py-2 border-b border-gray-100">
-                    <p className="text-sm font-medium text-gray-900">
-                      {session.user.name || "User"}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      {session.user.email}
-                    </p>
-                  </div>
-
-                  <DropdownMenuItem asChild>
-                    {session.user.email === "anojbudathoki17@gmail.com" && (
-                      <Link
-                        href="/dashboard"
-                        className="flex items-center px-3 py-2 text-sm text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md cursor-pointer transition-colors duration-150"
-                      >
-                        <LayoutDashboard className="h-4 w-4 mr-3  hover:text-primary" />
-                        Dashboard
-                      </Link>
-                    )}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link
-                      href="/profile"
-                      className="flex items-center px-3 py-2 text-sm text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md cursor-pointer transition-colors duration-150"
-                    >
-                      <User className="h-4 w-4 mr-3  hover:text-primary" />
-                      Profile
-                    </Link>
-                  </DropdownMenuItem>
-
-                  <DropdownMenuSeparator className="my-1 bg-gray-100" />
-
-                  <DropdownMenuItem
-                    onClick={Logout}
-                    className="flex items-center px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded-md cursor-pointer transition-colors duration-150"
+              {!session ? (
+                <div className="flex items-center space-x-3">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    asChild
+                    className="text-gray-700 hover:text-red-800 hover:bg-red-50 transition-all duration-200 font-medium px-4 py-2 rounded-lg border border-transparent border-red-200"
                   >
-                    <LogOut className="h-4 w-4 mr-3 hover:text-white" />
-                    Logout
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
-          </div>
+                    <Link href="/login">Login</Link>
+                  </Button>
+                  <Button
+                    size="sm"
+                    asChild
+                    className="bg-red-800 hover:bg-red-900 text-white font-medium px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
+                  >
+                    <Link href="/register">Sign Up</Link>
+                  </Button>
+                </div>
+              ) : (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <div className="flex items-center space-x-1 px-3 py-2 rounded-lg transition-all duration-200">
+                      <Avatar className="h-7 w-7 bg-primary">
+                        <AvatarImage
+                          src={session?.user?.image || "/placeholder.svg"}
+                          alt={session.user.name || "User avatar"}
+                        />
+                        <AvatarFallback className="bg-secondary uppercase text-white text-md font-medium">
+                          {session.user.name?.charAt(0)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex flex-col items-start">
+                        <span className="text-sm text-primary cursor-pointer truncate max-w-32">
+                          {session.user.email}
+                        </span>
+                      </div>
+                      <ChevronDown className="h-4 w-4 cursor-pointer text-gray-500 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                    </div>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    align="end"
+                    className="w-56 mt-2 bg-white border border-gray-200 shadow-lg rounded-lg p-1"
+                  >
+                    <div className="px-3 py-2 border-b border-gray-100">
+                      <p className="text-sm font-medium text-gray-900">
+                        {session.user.name || "User"}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {session.user.email}
+                      </p>
+                    </div>
+
+                    <DropdownMenuItem asChild>
+                      <Link
+                        href="/profile"
+                        className="flex items-center px-3 py-2 text-sm text-gray-700 hover:text-white hover:bg-gray-50 rounded-md cursor-pointer transition-colors duration-150"
+                      >
+                        <User className="h-4 w-4 mr-3  hover:text-white" />
+                        Profile
+                      </Link>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuSeparator className="my-1 bg-gray-100" />
+
+                    <DropdownMenuItem
+                      onClick={Logout}
+                      className="flex items-center px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md cursor-pointer transition-colors duration-150"
+                    >
+                      {loading ? (
+                        <Loader className="h-4 w-4 mr-3 animate-spin hover:text-white" />
+                      ) : (
+                        <LogOut className="h-4 w-4 mr-3 hover:text-white" />
+                      )}
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+            </div>
+          )}
 
           {/* Mobile Menu Button */}
           <div className="lg:hidden">
