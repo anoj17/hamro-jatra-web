@@ -13,6 +13,7 @@ import { SessionProps } from "@/types";
 import {
   Calendar,
   ChevronDown,
+  LayoutDashboard,
   Loader,
   LogOut,
   MapPin,
@@ -155,11 +156,22 @@ export function Navbar({ session }: { session: SessionProps | null }) {
                   </div>
 
                   <DropdownMenuItem asChild>
+                    {session.user.email === "anojbudathoki17@gmail.com" && (
+                      <Link
+                        href="/dashboard"
+                        className="flex items-center px-3 py-2 text-sm text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md cursor-pointer transition-colors duration-150"
+                      >
+                        <LayoutDashboard className="h-4 w-4 mr-3  hover:text-primary" />
+                        Dashboard
+                      </Link>
+                    )}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
                     <Link
                       href="/profile"
-                      className="flex items-center px-3 py-2 text-sm text-gray-700 hover:text-white hover:bg-gray-50 rounded-md cursor-pointer transition-colors duration-150"
+                      className="flex items-center px-3 py-2 text-sm text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md cursor-pointer transition-colors duration-150"
                     >
-                      <User className="h-4 w-4 mr-3  hover:text-white" />
+                      <User className="h-4 w-4 mr-3  hover:text-primary" />
                       Profile
                     </Link>
                   </DropdownMenuItem>
@@ -168,7 +180,7 @@ export function Navbar({ session }: { session: SessionProps | null }) {
 
                   <DropdownMenuItem
                     onClick={Logout}
-                    className="flex items-center px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md cursor-pointer transition-colors duration-150"
+                    className="flex items-center px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded-md cursor-pointer transition-colors duration-150"
                   >
                     <LogOut className="h-4 w-4 mr-3 hover:text-white" />
                     Logout
@@ -275,6 +287,19 @@ export function Navbar({ session }: { session: SessionProps | null }) {
             <div className="border-gray-100">
               {session ? (
                 <div className="space-y-3 flex md:flex-row flex-col md:space-y-0 space-x-0 md:space-x-3">
+                  {session.user.email === "anojbudathoki17@gmail.com" && (
+                    <>
+                      <Button
+                        variant="ghost"
+                        size="lg"
+                        asChild
+                        className="w-full md:w-1/2 text-white hover:text-red-800 hover:bg-red-50 transition-all duration-200 font-medium py-3 rounded-xl border border-gray-200 hover:border-red-200"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        <Link href="/dashboard">Dashboard</Link>
+                      </Button>
+                    </>
+                  )}
                   <Button
                     variant="ghost"
                     size="lg"
