@@ -24,13 +24,15 @@ import {
 } from "@/components/ui/popover";
 import { CustomMultiFileUploaderInputField } from "../fileuploader/multi-file-upload";
 import JoditEditorComponent from "../jodit-editor";
-
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { categoryItem } from "@/constant/data";
 // ✅ Validation Schema
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().min(1, "Description is required"),
   date: z.date("Date is required"),
   location: z.string().min(1, "Location is required"),
+   category: z.string().min(1, "Category is required"),
   image: z
     .any()
     .refine(
@@ -53,6 +55,7 @@ export default function UpcommingJatrasForm() {
       description: "",
       date: undefined,
       location: "",
+      category: "",
       image: [],
     },
   });
@@ -86,25 +89,36 @@ export default function UpcommingJatrasForm() {
               </FormItem>
             )}
           />
-
-          {/* Description */}
-          <FormField
+            <FormField
             control={form.control}
-            name="description"
+            name="category"
             render={({ field }) => (
               <FormItem>
-                <FormLabel required>Description</FormLabel>
+                <FormLabel required>Category</FormLabel>
                 <FormControl>
-                  <JoditEditorComponent
-                    value={field.value || ""}
-                    onChange={field.onChange}
-                  />
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent className="w-full">
+                      {categoryItem.map((item) => (
+                        <SelectItem key={item.key} value={item.key}>
+                          {item.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
+          
+        
           {/* Date */}
           <FormField
             control={form.control}
@@ -162,6 +176,22 @@ export default function UpcommingJatrasForm() {
             )}
           />
 
+<FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel required>Description</FormLabel>
+                <FormControl>
+                  <JoditEditorComponent
+                    value={field.value || ""}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="image"
