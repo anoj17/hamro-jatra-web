@@ -5,7 +5,7 @@ export default function Page() {
   const data: any[] = [];
 
   return (
-    <div>
+    <div className="p-4">
       <UpcommingJatrasClient data={data} />
     </div>
   );

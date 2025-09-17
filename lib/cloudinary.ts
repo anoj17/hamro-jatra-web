@@ -31,7 +31,6 @@ export const UploadFileProcess = async (file: File) => {
           .end(buffer);
       }
     );
-    console.log({ result });
     return result;
   } catch (error) {
     throw new Error("File upload failed");

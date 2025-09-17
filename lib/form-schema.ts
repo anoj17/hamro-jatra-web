@@ -19,3 +19,27 @@ export const registerSchema = z
   });
 
 export type RegisterFormData = z.infer<typeof registerSchema>;
+
+export const formSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  description: z.string().min(1, "Description is required"),
+  englishDate: z.date("Date is required"),
+  location: z.string().min(1, "Location is required"),
+  category: z.string().min(1, "Category is required"),
+  image: z
+    .array(z.instanceof(File)) // ensure each item is a File
+    .nonempty({ message: "At least one image is required" }),
+  latitude: z.coerce
+    .number()
+    .min(1, { message: "Latitude must be a positive number !" }),
+
+  altitude: z.coerce
+    .number()
+    .min(1, { message: "Altitude must be a positive number !" }),
+  district: z.string().min(1, "District is required"),
+  nepaliDate: z.string().min(1, "Nepali Date is required"),
+  month: z.string().min(1, "Month is required"),
+  shortTitle: z.string().optional(),
+});
+
+export type FormValues = z.infer<typeof formSchema>;
