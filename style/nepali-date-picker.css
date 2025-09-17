@@ -1,0 +1,160 @@
+.nepali-date-picker {
+  position: relative;
+}
+
+.nepali-date-picker .calender {
+  background: hsl(20deg 60% 98.04%);
+  border-radius: 6px;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  color: black;
+  display: block;
+  font-family: NotoSans, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  height: auto;
+  letter-spacing: 0.2px;
+  line-height: 1.25em;
+  padding: 15px;
+  position: absolute;
+  text-align: right;
+  user-select: none;
+  left: 0;
+  z-index: 9999;
+}
+
+.nepali-date-picker .calendar-controller {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+.nepali-date-picker .calendar-wrapper {
+  z-index: 100;
+  width: 248.8px;
+}
+
+.nepali-date-picker .calendar-controller .date-indicator {
+  display: flex;
+}
+
+.nepali-date-picker .control {
+  cursor: pointer;
+  position: relative;
+  text-align: center;
+}
+
+.nepali-date-picker .control.icon-today {
+  position: absolute;
+  right: 20px;
+}
+.icon-today svg path {
+  fill: hsl(var(--primary)); /* Change color */
+}
+
+.nepali-date-picker .control.month,
+.nepali-date-picker .control.year {
+  border: 1px solid #eee;
+  line-height: 24px;
+  width: 70px;
+}
+
+.nepali-date-picker .control .current-month,
+.nepali-date-picker .control .current-year {
+  display: block;
+  padding: 4px;
+}
+
+.nepali-date-picker .control.year {
+  border-left: none;
+}
+
+.nepali-date-picker .drop-down {
+  background-color: #fff;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
+  left: 0;
+  max-height: 200px;
+  overflow-y: scroll;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.nepali-date-picker .drop-down ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nepali-date-picker .drop-down li {
+  padding: 4px 10px;
+}
+
+.nepali-date-picker .drop-down li.active {
+  background: #2096f5;
+  color: #fff;
+}
+
+.nepali-date-picker td.month-day.current {
+  opacity: 1;
+}
+
+.nepali-date-picker td.month-day.disabled {
+  color: hsl(var(--muted-foreground));
+  opacity: 0.5;
+}
+
+.nepali-date-picker td.month-day.today {
+  color: #4a4a4a;
+  position: relative;
+}
+
+/* .nepali-date-picker td.month-day.today::before {
+  background-color: #2096f5;
+  border-radius: 50%;
+  bottom: 6px;
+  content: '';
+  height: 4px;
+  left: 50%;
+  margin: auto;
+  position: absolute;
+  transform: translateX(-50%);
+  width: 4px;
+} */
+
+.nepali-date-picker td.month-day.selected {
+  color: hsl(0, 100%, 2%);
+  position: relative;
+}
+
+.nepali-date-picker td.month-day.selected::after {
+  background: hsl(var(--primary));
+  border-radius: 20%;
+  content: '';
+  height: 35px;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 35px;
+  z-index: -1;
+}
+
+.nepali-date-picker table {
+  text-align: center;
+  width: 100%;
+  border: none;
+}
+
+.nepali-date-picker table td {
+  height: 40px;
+  width: 40px;
+  border: none;
+}
+
+.nepali-date-picker table tr {
+  border: none;
+  height: 36px;
+}
