@@ -31,3 +31,19 @@ export interface SessionProps {
   };
   expires: string;
 }
+
+export interface JatraProps {
+  id: string;
+  title: string;
+  description: string;
+  location: string;
+  category: string;
+  latitude: number;
+  altitude: number;
+  district: string;
+  nepaliDate: string;
+  month: string;
+  shortTitle: string;
+  image: string[];
+  englishDate: string;
+}

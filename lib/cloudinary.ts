@@ -31,14 +31,9 @@ export const UploadFileProcess = async (file: File) => {
           .end(buffer);
       }
     );
+    console.log({ result });
     return result;
   } catch (error) {
     throw new Error("File upload failed");
   }
-
-  //   const uploadRes = await cloudinary.uploader.upload(file, {
-  //     upload_preset: "hamro-jatra",
-  //     folder: "hamro-jatra",
-  //   });
-  //   console.log({ uploadRes });
 };

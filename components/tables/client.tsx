@@ -7,9 +7,10 @@ import Link from "next/link";
 import { columns } from "./columns";
 import { Heading } from "../heading";
 import { navroutes } from "@/constant/navroutes";
+import { Jatra } from "@prisma/client";
 
 type UpcommingJatrasProps = {
-  data: any;
+  data: Jatra[] | [];
 };
 
 export const UpcommingJatrasClient: React.FC<UpcommingJatrasProps> = ({

@@ -23,18 +23,16 @@ export type RegisterFormData = z.infer<typeof registerSchema>;
 export const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().min(1, "Description is required"),
-  englishDate: z.date("Date is required"),
+  englishDate: z.date().min(1, "English Date is required"),
   location: z.string().min(1, "Location is required"),
   category: z.string().min(1, "Category is required"),
-  image: z
-    .array(z.instanceof(File)) // ensure each item is a File
-    .nonempty({ message: "At least one image is required" }),
+  image: z.array(z.any()),
   latitude: z.coerce
     .number()
     .min(1, { message: "Latitude must be a positive number !" }),
-
   altitude: z.coerce
     .number()
+    .positive()
     .min(1, { message: "Altitude must be a positive number !" }),
   district: z.string().min(1, "District is required"),
   nepaliDate: z.string().min(1, "Nepali Date is required"),

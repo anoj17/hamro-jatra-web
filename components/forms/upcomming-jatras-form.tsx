@@ -6,6 +6,7 @@ import {
   Calendar as CalendarIcon,
   Check,
   ChevronsUpDown,
+  Loader,
   Loader2,
 } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -52,27 +53,59 @@ import {
 } from "../ui/command";
 import { cn } from "@/lib/utils";
 import { toast } from "react-toastify";
+import { JatraProps } from "@/types";
+import { Heading } from "../heading";
 
-export default function UpcommingJatrasForm() {
+interface UpcommingJatrasFormProps {
+  data: JatraProps | null;
+}
+
+export default function UpcommingJatrasForm({
+  data,
+}: UpcommingJatrasFormProps) {
   const [districtOpen, setDistrictOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const title = data ? "Edit Jatra" : "Create Jatra";
+  const description = data
+    ? "Here you can edit  Jatra"
+    : "Here you can add  Jatra";
+
+  const action = data ? "Save changes" : "Create Jatra";
+
+  const defaultValues = data
+    ? {
+        title: data.title,
+        description: data.description,
+        englishDate: new Date(data.englishDate),
+        location: data.location,
+        category: data.category,
+        image: data.image,
+        latitude: data.latitude,
+        altitude: data.altitude,
+        district: data.district,
+        nepaliDate: data.nepaliDate,
+        month: data.month,
+        shortTitle: data.shortTitle ?? undefined, // map null → undefined
+      }
+    : {
+        title: "",
+        description: "",
+        englishDate: undefined,
+        location: "",
+        category: "",
+        image: [],
+        latitude: 0,
+        altitude: 0,
+        district: "",
+        nepaliDate: "",
+        month: "",
+        shortTitle: "",
+      };
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-      englishDate: undefined,
-      location: "",
-      category: "",
-      latitude: 0,
-      altitude: 0,
-      district: "",
-      nepaliDate: "",
-      month: "",
-      shortTitle: "",
-      image: [],
-    },
+    defaultValues: defaultValues,
   });
 
   const englishDate = form.watch("englishDate");
@@ -95,21 +128,21 @@ export default function UpcommingJatrasForm() {
   }, [nepaliDate]);
 
   const onSubmit: SubmitHandler<FormValues> = async (values) => {
-    console.log({ values });
     setLoading(true);
     const formData = new FormData();
 
     formData.append("title", values.title);
     formData.append("description", values.description);
-    formData.append("englishDate", values.englishDate);
+    formData.append("englishDate", values.englishDate.toString());
     formData.append("location", values.location);
     formData.append("category", values.category);
-    formData.append("latitude", values.latitude);
-    formData.append("altitude", values.altitude);
+    formData.append("latitude", values.latitude.toString());
+    formData.append("altitude", values.altitude.toString());
     formData.append("district", values.district);
     formData.append("nepaliDate", values.nepaliDate);
     formData.append("month", values.month);
-    formData.append("shortTitle", values.shortTitle);
+    values.shortTitle && formData.append("shortTitle", values.shortTitle);
+    data?.id && formData.append("id", data.id);
 
     for (const image of values.image) {
       formData.append("image", image);
@@ -139,7 +172,7 @@ export default function UpcommingJatrasForm() {
 
   return (
     <div className="w-full mx-auto p-6 bg-white shadow rounded-2xl">
-      <h2 className="text-xl font-semibold mb-4">Create Event</h2>
+      <Heading title={title} description={description} />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           {/* Title */}
@@ -425,20 +458,33 @@ export default function UpcommingJatrasForm() {
                   <CustomMultiFileUploaderInputField
                     value={field.value}
                     onFilesChange={field.onChange}
+                    imageToPreview={data?.image}
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
-          <Button type="submit" className="w-full cursor-pointer">
+          <div className="mt-10">
             {loading ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <Button
+                disabled={loading}
+                className="opacity-50 w-full cursor-pointer"
+                type="submit"
+              >
+                <Loader className="mr-2 h-4 w-4 animate-spin inline-block" />
+                ...loading
+              </Button>
             ) : (
-              "Save Event"
+              <Button
+                disabled={loading}
+                className="w-full cursor-pointer"
+                type="submit"
+              >
+                {action}
+              </Button>
             )}
-          </Button>
+          </div>
         </form>
       </Form>
     </div>

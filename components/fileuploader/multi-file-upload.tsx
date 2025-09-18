@@ -127,7 +127,7 @@ export const CustomMultiFileUploaderInputField: React.FC<
           <div className="relative w-full" key={url}>
             <button
               type="button"
-              className="absolute right-0 top-0 rounded bg-red-500 p-2 text-white hover:bg-red-700"
+              className="absolute right-0 top-0 rounded bg-red-500 p-2 cursor-pointer text-white hover:bg-red-700"
               onClick={() => handleRemoveFile(url, index)}
             >
               <svg

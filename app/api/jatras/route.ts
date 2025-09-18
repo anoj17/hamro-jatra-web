@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { UploadFileProcess } from "@/lib/cloudinary";
+import { processMultiFileUploads } from "@/lib/file-upload-process-multiple";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -18,31 +18,52 @@ export async function POST(request: Request) {
   const month = formData.get("month") as string;
   const shortTitle = formData.get("shortTitle") as string;
   const images = formData.getAll("image") as File[];
+  const id = formData.get("id") as string;
 
-  const imageUrls = await Promise.all(
-    images.map(async (file) => {
-      const result = await UploadFileProcess(file as File);
-      return result.url; // or result.secure_url if you want URL
-    })
-  );
+  let filesPaths: string[] = [];
+  if (images) {
+    filesPaths = await processMultiFileUploads(images);
+  }
 
   try {
-    await db.jatra.create({
-      data: {
-        title,
-        description,
-        englishDate: englishDate!.toISOString(),
-        location,
-        category,
-        latitude: parseFloat(latitude),
-        altitude: parseFloat(altitude),
-        district,
-        nepaliDate,
-        month,
-        shortTitle,
-        image: imageUrls,
-      },
-    });
+    if (id) {
+      await db.jatra.update({
+        where: {
+          id: id,
+        },
+        data: {
+          title,
+          description,
+          englishDate: englishDate!.toISOString(),
+          location,
+          category,
+          latitude: parseFloat(latitude),
+          altitude: parseFloat(altitude),
+          district,
+          nepaliDate,
+          month,
+          shortTitle,
+          image: filesPaths,
+        },
+      });
+    } else {
+      await db.jatra.create({
+        data: {
+          title,
+          description,
+          englishDate: englishDate!.toISOString(),
+          location,
+          category,
+          latitude: parseFloat(latitude),
+          altitude: parseFloat(altitude),
+          district,
+          nepaliDate,
+          month,
+          shortTitle,
+          image: filesPaths,
+        },
+      });
+    }
     return NextResponse.json(
       { message: "Jatra created successfully" },
       { status: 201 }
@@ -53,6 +74,4 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
-
-  console.log({ imageUrls });
 }
