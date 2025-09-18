@@ -36,7 +36,7 @@ export const formSchema = z.object({
     .min(1, { message: "Altitude must be a positive number !" }),
   district: z.string().min(1, "District is required"),
   nepaliDate: z.string().min(1, "Nepali Date is required"),
-  month: z.string().min(1, "Month is required"),
+  monthInNepali: z.string().min(1, "Month is required"),
   shortTitle: z.string().optional(),
 });
 

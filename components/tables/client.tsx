@@ -21,13 +21,13 @@ export const UpcommingJatrasClient: React.FC<UpcommingJatrasProps> = ({
       <div className="flex w-full items-start justify-between">
         <div className="flex w-full flex-wrap justify-between">
           <Heading
-            title={`Upcomming Jatras (${data.length})`}
-            description="Here you can view all the available Upcomming Jatras"
+            title={`Total Jatras (${data.length})`}
+            description="Here you can view all the available Jatras"
           />
           <div className="mt-4 flex gap-2 lg:mt-0">
             <Link href={navroutes.CREATE_UPCOMING_JATRA}>
               <Button className="text-xs md:text-sm cursor-pointer">
-                <Plus className="mr-2 h-4 w-4" /> Add Upcomming Jatras
+                <Plus className="mr-2 h-4 w-4" /> Add Jatras
               </Button>
             </Link>
           </div>

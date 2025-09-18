@@ -1,21 +1,26 @@
 "use client";
 
-import { Pencil, Trash2 } from "lucide-react";
+import { Eye, Pencil, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AlertModal } from "../alert-modal";
 import ToolTip from "../tooltips/ToolTip";
 import { toast } from "react-toastify";
 import { deleteJatra } from "@/app/api/action/jatra";
+import { DynamicModal } from "../modal/dynamic-modal";
+import { Jatra } from "@prisma/client";
+import { ViewJatraDetails } from "../view-jatra-details";
 
 interface CellActionProps {
-  data: any;
+  data: Jatra;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openView, setOpenView] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<string>("");
+  const [selectData, setSelectData] = useState<Jatra | null>(null);
   const router = useRouter();
 
   const onConfirm = async (id: string) => {
@@ -43,6 +48,20 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
   return (
     <>
+      {openView && (
+        <DynamicModal
+          title={`${selectData?.title} Details`}
+          description={`${selectData?.shortTitle}`}
+          isOpen={openView}
+          onClose={() => setOpenView(false)}
+          className="w-full md:min-w-[680px] lg:min-w-[800px]"
+        >
+          <div className="">
+            <ViewJatraDetails jatra={selectData} />
+          </div>
+        </DynamicModal>
+      )}
+
       <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
@@ -73,6 +92,20 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
               }}
             >
               <Trash2 size={18} strokeWidth={2} />
+            </div>
+          }
+        />
+        <ToolTip
+          text="View"
+          icon={
+            <div
+              className="flex cursor-pointer items-center justify-center rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-700"
+              onClick={() => {
+                setOpenView(true);
+                setSelectData(data);
+              }}
+            >
+              <Eye size={18} strokeWidth={2} />
             </div>
           }
         />

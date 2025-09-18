@@ -762,3 +762,78 @@ export const districts = [
     headquarter: "Dhangadhi",
   },
 ];
+
+export const monthsInNepali = [
+  {
+    id: 1,
+    english_name: "Baisakh",
+    official_name: "Baishākh",
+    days: "30/31",
+  },
+  {
+    id: 2,
+    english_name: "Jestha",
+    official_name: "Jestha",
+    days: "31/32",
+  },
+  {
+    id: 3,
+    english_name: "Ashadh",
+    official_name: "Āshādh",
+    days: "31/32",
+  },
+  {
+    id: 4,
+    english_name: "Shrawan",
+    official_name: "Shrāvan",
+    days: "31/32",
+  },
+  {
+    id: 5,
+    english_name: "Bhadra",
+    official_name: "Bhadra",
+    days: "31/32",
+  },
+  {
+    id: 6,
+    english_name: "Aswin",
+    official_name: "Āshwin",
+    days: "30/31",
+  },
+  {
+    id: 7,
+    english_name: "Kartik",
+    official_name: "Kārtik",
+    days: "29/30",
+  },
+  {
+    id: 8,
+    english_name: "Mangsir",
+    official_name: "Mangsir",
+    days: "29/30",
+  },
+  {
+    id: 9,
+    english_name: "Poush",
+    official_name: "Poush",
+    days: "29/30",
+  },
+  {
+    id: 10,
+    english_name: "Magh",
+    official_name: "Magh",
+    days: "29/30",
+  },
+  {
+    id: 11,
+    english_name: "Falgun",
+    official_name: "Phāgun",
+    days: "29/30",
+  },
+  {
+    id: 12,
+    english_name: "Chaitra",
+    official_name: "Chaitra",
+    days: "30/31",
+  },
+];

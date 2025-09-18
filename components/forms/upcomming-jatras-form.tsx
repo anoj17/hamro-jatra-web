@@ -36,7 +36,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { categoryItem, districts } from "@/constant/data";
+import { categoryItem, districts, monthsInNepali } from "@/constant/data";
 import { formSchema, FormValues } from "@/lib/form-schema";
 import "../../style/nepali-date-picker.css";
 import NepaliDate from "nepali-date-converter";
@@ -55,6 +55,7 @@ import { cn } from "@/lib/utils";
 import { toast } from "react-toastify";
 import { JatraProps } from "@/types";
 import { Heading } from "../heading";
+import { useRouter } from "next/navigation";
 
 interface UpcommingJatrasFormProps {
   data: JatraProps | null;
@@ -64,7 +65,10 @@ export default function UpcommingJatrasForm({
   data,
 }: UpcommingJatrasFormProps) {
   const [districtOpen, setDistrictOpen] = useState(false);
+  const [monthOpen, setMonthOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   const title = data ? "Edit Jatra" : "Create Jatra";
   const description = data
@@ -85,7 +89,7 @@ export default function UpcommingJatrasForm({
         altitude: data.altitude,
         district: data.district,
         nepaliDate: data.nepaliDate,
-        month: data.month,
+        monthInNepali: data.monthInNepali,
         shortTitle: data.shortTitle ?? undefined, // map null → undefined
       }
     : {
@@ -99,7 +103,7 @@ export default function UpcommingJatrasForm({
         altitude: 0,
         district: "",
         nepaliDate: "",
-        month: "",
+        monthInNepali: "",
         shortTitle: "",
       };
 
@@ -140,7 +144,7 @@ export default function UpcommingJatrasForm({
     formData.append("altitude", values.altitude.toString());
     formData.append("district", values.district);
     formData.append("nepaliDate", values.nepaliDate);
-    formData.append("month", values.month);
+    formData.append("monthInNepali", values.monthInNepali);
     values.shortTitle && formData.append("shortTitle", values.shortTitle);
     data?.id && formData.append("id", data.id);
 
@@ -159,6 +163,7 @@ export default function UpcommingJatrasForm({
       if (response.ok) {
         setLoading(false);
         toast.success("Jatra created successfully!");
+        router.push("/upcomming-jatras");
       } else {
         setLoading(false);
         toast.error("Something went wrong!");
@@ -303,16 +308,55 @@ export default function UpcommingJatrasForm({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-            {/* Month */}
+            {/* Month in Nepali */}
             <FormField
               control={form.control}
-              name="month"
+              name="monthInNepali"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel required>Month</FormLabel>
-                  <FormControl>
-                    <Input placeholder="January" {...field} />
-                  </FormControl>
+                <FormItem className="flex flex-col items-start space-y-2">
+                  <FormLabel required>Month in Nepali</FormLabel>
+                  <Popover open={monthOpen} onOpenChange={setMonthOpen}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        className="w-full justify-between"
+                      >
+                        {field.value || "Select month"}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="min-w-[350px] lg:min-w-[290px] p-0 h-[300px] overflow-y-auto">
+                      <Command>
+                        <CommandInput placeholder="Search month..." />
+                        <CommandList>
+                          <CommandEmpty>No month found.</CommandEmpty>
+                          <CommandGroup>
+                            {monthsInNepali.map((month) => (
+                              <CommandItem
+                                key={month.id}
+                                value={month.official_name}
+                                onSelect={(value) => {
+                                  field.onChange(value);
+                                  setMonthOpen(false);
+                                }}
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    field.value === month.official_name
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                                {month.official_name}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
                   <FormMessage />
                 </FormItem>
               )}

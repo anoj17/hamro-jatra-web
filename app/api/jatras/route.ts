@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   const altitude = formData.get("altitude") as string;
   const district = formData.get("district") as string;
   const nepaliDate = formData.get("nepaliDate") as string;
-  const month = formData.get("month") as string;
+  const monthInNepali = formData.get("monthInNepali") as string;
   const shortTitle = formData.get("shortTitle") as string;
   const images = formData.getAll("image") as File[];
   const id = formData.get("id") as string;
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
           altitude: parseFloat(altitude),
           district,
           nepaliDate,
-          month,
+          monthInNepali,
           shortTitle,
           image: filesPaths,
         },
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
           altitude: parseFloat(altitude),
           district,
           nepaliDate,
-          month,
+          monthInNepali,
           shortTitle,
           image: filesPaths,
         },

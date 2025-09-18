@@ -82,19 +82,19 @@ model Authenticator {
 }
 
 model Jatra {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  description String
-  image       String[]
-  category    String
-  latitude    Float
-  altitude    Float
-  district    String
-  month       String
-  shortTitle  String?
-  englishDate DateTime
-  nepaliDate  String
-  location    String
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  description   String
+  image         String[]
+  category      String
+  latitude      Float
+  altitude      Float
+  district      String
+  monthInNepali String
+  shortTitle    String?
+  englishDate   DateTime
+  nepaliDate    String
+  location      String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
